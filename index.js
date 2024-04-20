@@ -14,6 +14,7 @@ app.post("/addTodo",async (req,res)=>{
   try {
     const todo = await Todo.create({
         title:req.body.title,
+        userId:req.body.userId,
         Description:req.body.description
     })
     res.json(todo)
@@ -23,6 +24,20 @@ app.post("/addTodo",async (req,res)=>{
     res.status(500).send("Internal Server Error ")
 }
 })
+
+app.get("/viewTodo",async (req,res)=>{
+  try {
+    const todo = await Todo.find({
+      userId:req.body.userId
+    })
+    res.json(todo)
+
+} catch (error) {
+    console.log(error)
+    res.status(500).send("Internal Server Error ")
+}
+})
+
 app.post("/checkTodo",async (req,res)=>{
   try {
     const todo = await Todo.findByIdAndUpdate({
